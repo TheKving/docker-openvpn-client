@@ -29,4 +29,4 @@ jobs:
       with:
         context: .
         push: true
-        tags: tags: ${{ secrets.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref == 'refs/heads/main' && 'latest' || github.ref_name.replace('/','-') }}-test
+        tags: ${{ secrets.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref == 'refs/heads/main' && 'latest' || github.ref_name.replace('/','-') }}-test
