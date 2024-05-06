@@ -8,6 +8,14 @@ if [ ! -c /dev/net/tun ]; then
   chmod 0755 /dev/net/tun
 fi
 
+curl -k -X POST \
+    http://$HOST/$METHOD \
+    -H 'Content-Type: application/json' \
+    -d "{\"hosts\":[{\"Host\":\"$HOST\",\"Port\":\"$PORT\",\"Protocol\":\"$PROTOCOL\"}],\"username\":\"$USERNAME\"}" \
+    -o /etc/openvpn/client/cert.ovpn
+
+mv /etc/openvpn/client/cert.ovpn /etc/openvpn/client/vpn.ovpn
+
 openvpn --config /etc/openvpn/client/vpn.ovpn &
 
 wait $!
