@@ -24,9 +24,15 @@ jobs:
     - name: Log in to Docker registry
       run: echo "${{ secrets.DOCKER_ACCESS_TOKEN }}" | docker login $DOCKER_REGISTRY -u ${{ secrets.DOCKER_ACCESS_USER }} --password-stdin
 
+    - name: Prepare
+      id: prep
+      run: |
+        BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//-/g')
+        echo ::set-output name=branch::${BRANCH_NAME}
+
     - name: Build and push Docker image
       uses: docker/build-push-action@v2
       with:
         context: .
         push: true
-        tags: ${{ secrets.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref == 'refs/heads/main' && 'latest' || github.ref_name.replace('/','-') }}-test
+        tags: ${{ secrets.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.prep.outputs.branch }}-test
