@@ -7,12 +7,6 @@ RUN apk update && \
 RUN mkdir -p /etc/openvpn/client/
 RUN chmod -R 755 /etc/openvpn/client/
 
-ARG METHOD
-ARG HOST
-ARG PORT
-ARG PROTOCOL
-ARG USERNAME
-
 ENV HOST=$HOST
 ENV PORT=$PORT
 ENV PROTOCOL=$PROTOCOL
